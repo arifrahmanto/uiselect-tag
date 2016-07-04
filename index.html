@@ -3,21 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>AngularJS ui-select</title>
-
-  <!--
-      IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
-      For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
-    -->
-  <!--[if lt IE 9]>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
-      <script>
-        document.createElement('ui-select');
-        document.createElement('ui-select-match');
-        document.createElement('ui-select-choices');
-      </script>
-    <![endif]-->
+  <title>Tagging Research</title>
 
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
@@ -62,6 +48,10 @@
       z-index: 10000;
       /* The select2 dropdown has a z-index of 9999 */
     }
+
+    .ui-select-bootstrap > .ui-select-choices ,.ui-select-bootstrap > .ui-select-no-choice {
+      max-height: 450px;
+    }
   </style>
 </head>
 
@@ -71,36 +61,16 @@
   <p>Tagging allows the creation of new items not present in the item list</p>
 
   <h3>Object Tags <small>(with grouping)</small></h3>
-  <ui-select multiple tagging="ctrl.tagTransform" ng-model="ctrl.multipleDemo.selectedPeople" theme="bootstrap" ng-disabled="ctrl.disabled"
-    style="width: 800px;" title="Choose a person">
-    <ui-select-match placeholder="Select person...">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-    <ui-select-choices repeat="person in ctrl.people | propsFilter: {name: $select.search, age: $select.search}" group-by="'country'">
-      <div ng-if="person.isTag" ng-bind-html="(person.name | highlight: $select.search) +' (new)'"></div>
-      <div ng-if="!person.isTag" ng-bind-html="person.name + person.isTag| highlight: $select.search"></div>
-      <small>
-        email: {{person.email}}
-        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
-      </small>
+  <ui-select multiple tagging="ctrl.newTag" ng-model="ctrl.selectedTag" theme="bootstrap" ng-disabled="ctrl.disabled" style="width: 800px;"
+    title="Choose a tag">
+    <ui-select-match placeholder="Select tag...">{{$item.name}}</ui-select-match>
+    <ui-select-choices repeat="tag in ctrl.lsTag | propsFilter: {name: $select.search}" group-by="'group'">
+      <div ng-if="tag.isTag" ng-bind-html="(tag.name | highlight: $select.search) +' (new)'"></div>
+      <div ng-if="!tag.isTag" ng-bind-html="tag.name + tag.isTag| highlight: $select.search"></div>
     </ui-select-choices>
   </ui-select>
   <p>Selected: </p>
-  <pre>selectedPeople = {{ctrl.multipleDemo.selectedPeople | json}}</pre>
-<!--
-  <h3>Object Tags <small>(with grouping)</small></h3>
-  <ui-select multiple tagging="ctrl.tagTransform" ng-model="ctrl.multipleDemo.selectedPeople" theme="bootstrap" ng-disabled="ctrl.disabled"
-    style="width: 800px;" title="Choose a person">
-    <ui-select-match placeholder="Select person...">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>
-    <ui-select-choices repeat="person in ctrl.people | propsFilter: {name: $select.search, age: $select.search}" group-by="'country'">
-      <div ng-if="person.isTag" ng-bind-html="(person.name | highlight: $select.search) +' (new)'"></div>
-      <div ng-if="!person.isTag" ng-bind-html="person.name + person.isTag| highlight: $select.search"></div>
-      <small>
-        email: {{person.email}}
-        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
-      </small>
-    </ui-select-choices>
-  </ui-select>
-  <p>Selected: </p>
-  <pre>selectedPeople = {{ctrl.multipleDemo.selectedPeople | json}}</pre>-->
+  <pre>selectedTag = {{ctrl.selectedTag | json}}</pre>
 
   <div style="height:500px"></div>
 </body>
